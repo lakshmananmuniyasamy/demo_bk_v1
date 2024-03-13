@@ -15,6 +15,7 @@ public class Login {
 	private String username;
 	private String email;
 	private String password;
+	private String role;
 	public int getId() {
 		return id;
 	}
@@ -39,4 +40,11 @@ public class Login {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	public String getRole() {
+		return role;
+	}
+	public void setRole(String user) {
+		this.role = "user";
+	}
+	
 }

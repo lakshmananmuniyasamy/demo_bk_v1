@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.edex.login.model.Login;
+import com.edex.login.model.Song;
 import com.edex.login.repo.LoginRepo;
 
 @RestController
@@ -23,11 +25,12 @@ public class LoginController {
 	
 	@Autowired
 	private LoginRepo loginRepo;
-	 @CrossOrigin(origins = "http://localhost:3000")
+//	 @CrossOrigin(origins = "http://localhost:3000")
 	@PostMapping("/signup")
 	
 	public ResponseEntity<?> signMapping(@RequestBody Login login){
 		 try {
+			 	login.setRole("user");
 	            loginRepo.saveAndFlush(login);
 	            return ResponseEntity.status(HttpStatus.OK)
 	                                 .body("Registration Successful");
@@ -35,10 +38,11 @@ public class LoginController {
 	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 	                                 .body("Error occurred during registration");
 	        }
+		 
 	}
 
 	@PostMapping("/login")
-	@CrossOrigin(origins = "http://localhost:3000")
+//	@CrossOrigin(origins = "http://localhost:3000")
 	
 	public ResponseEntity<?> loginMapping(@RequestBody Login login){
 		
@@ -53,6 +57,31 @@ public class LoginController {
       		.body(log);
 		
 	}
+	
+	@GetMapping("/getdetails")
+	
+	public ResponseEntity<?> getdetails(){
+		List<Login> login =loginRepo.findAll();
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(login);			
+	}
+	
+	
+//	@GetMapping("/findbyname/{username}")
+//	public ResponseEntity<?> findByName(@PathVariable String username) {
+//	    System.out.println("Find name: " + username);
+//	    List<Login> login = loginRepo.findByName(username);
+//	    if (login != null) {
+//	        return ResponseEntity.status(HttpStatus.OK)
+//	                             .body(login);
+//	    } else {
+//	        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+//	                             .body("Song not found with name: " + username);
+//	    }
+//	}
+//	
+	
+	
 }
 	
 
